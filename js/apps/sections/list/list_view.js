@@ -11,7 +11,6 @@ WebTester.module("SectionsApp.List", function(List, WebTester, Backbone, Marione
     ];
 
     List.Section = Marionette.ItemView.extend({
-        tagName: "div",
         className: "col s12 m6",
         template: "#section-list-item",
         templateHelpers: function() {
@@ -24,7 +23,6 @@ WebTester.module("SectionsApp.List", function(List, WebTester, Backbone, Marione
     });
     
     List.Sections = Marionette.CollectionView.extend({
-        tagName: "div",
         className: "row",
         childView: List.Section,
     });
