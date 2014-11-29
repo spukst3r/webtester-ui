@@ -1,0 +1,25 @@
+{
+  "name": "tester-webui",
+  "version": "0.0.1",
+  "authors": [
+    "spukst3r <spukst3r@gmail.com>"
+  ],
+  "description": "A Marionette.js UI for webtester's API",
+  "main": "index.html",
+  "moduleType": [
+    "globals"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "marionette": "~2.2.2",
+    "materialize": "*"
+  }
+}
