@@ -6,8 +6,6 @@ WebTester.module("SectionsApp.List", function(List, WebTester, Backbone, Marione
             var sectionsView = new WebTester.SectionsApp.List.Sections({
                 collection: sections,
             });
-            
-            console.log("Hmm");
 
             WebTester.mainRegion.show(sectionsView);
         }

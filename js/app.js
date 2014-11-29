@@ -7,11 +7,12 @@ WebTester.addRegions({
 WebTester.on("start", function() {
     var routers = [
         WebTester.Routers.SectionsRouter,
+        WebTester.Routers.AdminRouter,
     ];
-    //WebTester.SectionsApp.List.Controller.listSections();
+
     _.each(routers, function(Router) {
-        new Router();
+        new Router;
     });
     
-    console.log(Backbone.history.start());
+    console.log(Backbone.history.start({pushState: true}));
 });
