@@ -14,5 +14,11 @@ WebTester.on("start", function() {
         new Router;
     });
     
-    console.log(Backbone.history.start({pushState: true}));
+    Backbone.history.start({
+        pushState: true,
+    });
+
+    if (Backbone.history.fragment === '') {
+        Backbone.history.navigate('sections');
+    }
 });

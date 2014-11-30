@@ -21,24 +21,23 @@
                     <div class="nav-wrapper">
                         <a href="#" class="brand-logo">Tester</a>
                         <ul id="nav-mobile" class="right side-nav">
-                            <li><a href="#">Link1</a></li>
-                            <li><a href="#">Link2</a></li>
-                            <li><a href="#">Link3</a></li>
+                            <li><a href="/stats">Моя статистика</a></li>
+                            <li><a href="/admin">Управление сайтом</a></li>
                         </ul>
                         <a class="button-collapse" href="#" data-activates="nav-mobile"><i class="mdi-navigation-menu"></i></a>
                     </div>
                 </div>
             </nav>
         </div>
-        
+
         <div id="main-region" class="container">
             <p>Web app is loading, please wait.</p>
         </div>
-        
+
         <script type="text/template" id="static-template">
         Static template.
         </script>
-        
+
         <script type="text/template" id="section-list-item">
         <div class="card <%= cycleColors() %>">
             <div class="card-content">
@@ -49,6 +48,50 @@
                 <a class="card-action" href="#">Читать лекцию</a>
                 <a class="card-action" href="#">Пройти тест</a>
             </div>
+            </div>
+        </script>
+
+        <script type="text/template" id="loading-view">
+        <div class="preloader-wrapper big active">
+            <div class="spinner-layer spinner-blue">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div><div class="gap-patch">
+                <div class="circle"></div>
+                </div><div class="circle-clipper right">
+                <div class="circle"></div>
+                </div>
+            </div>
+
+            <div class="spinner-layer spinner-red">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div><div class="gap-patch">
+                <div class="circle"></div>
+                </div><div class="circle-clipper right">
+                <div class="circle"></div>
+                </div>
+            </div>
+
+            <div class="spinner-layer spinner-yellow">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div><div class="gap-patch">
+                <div class="circle"></div>
+                </div><div class="circle-clipper right">
+                <div class="circle"></div>
+                </div>
+            </div>
+
+            <div class="spinner-layer spinner-green">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div><div class="gap-patch">
+                <div class="circle"></div>
+                </div><div class="circle-clipper right">
+                <div class="circle"></div>
+                </div>
+            </div>
         </div>
         </script>
 
@@ -57,12 +100,14 @@
         </script>
 
         <script src="/js/app.js"></script>
+        <script src="/js/apps/common/views.js"></script>
         <script src="/js/models/section.js"></script>
+        <script src="/js/models/stats.js"></script>
         <script src="/js/apps/sections/list/list_controller.js"></script>
         <script src="/js/apps/sections/list/list_view.js"></script>
         <script src="/js/apps/admin/controller.js"></script>
         <script src="/js/routers.js"></script>
-        
+
         <script>
             WebTester.start();
         </script>

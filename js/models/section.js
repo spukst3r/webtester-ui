@@ -2,7 +2,7 @@ WebTester.module("Models", function(Models, WebTester, Backbone, Marionette, $, 
     Models.Section = Backbone.Model.extend({});
 
     Models.SectionCollection = Backbone.Collection.extend({
-        url: "http://127.1:5000/api/sections/",
+        url: "/api/sections/",
         model: Models.Section,
         comparator: "order",
     });
@@ -10,10 +10,15 @@ WebTester.module("Models", function(Models, WebTester, Backbone, Marionette, $, 
     var API = {
         getSections: function() {
             var sections = new Models.SectionCollection();
+            var defer = $.Deferred();
             
-            sections.fetch();
+            sections.fetch({
+                success: function(data) {
+                    defer.resolve(data);
+                }
+            });
             
-            return sections;
+            return defer.promise();
         }
     };
     
