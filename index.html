@@ -64,24 +64,24 @@
         <form class="col s12">
             <div class="row">
                 <div class="input-field col s6">
-                    <input id="subject" type="text" value="<%= subject %>" required>
+                    <input name="subject" type="text" value="<%= subject %>" required>
                     <label for="subject">Тема</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s9">
-                    <input id="summary" type="text" value="<%= summary %>" required>
+                    <input name="summary" type="text" value="<%= summary %>" required>
                     <label for="subject">Краткое содержание</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s12">
-                    <textarea><%= lection %></textarea>
+                    <textarea name="lection" id="lection"><%= lection %></textarea>
                     <label>Лекция</label>
                 </div>
             </div>
             <div class="row">
-                <a href="" class="waves-effect waves-light btn">
+                <a href="" class="waves-effect waves-light btn" id="save-button">
                     <i class="mdi-content-save"></i>Сохранить
                 </a>
             </div>
@@ -89,8 +89,10 @@
         </script>
 
         <script type="text/template" id="section-show-item">
-        <h2><%= subject %></h2>
-        <p class="flow-text"><%= markdown(lection) %></p>
+        <div class="card-panel">
+            <h1><%= subject %></h1>
+            <p class="flow-text"><%= markdown(lection) %></p>
+        </div>
         </script>
 
         <script type="text/template" id="loading-view">
@@ -144,6 +146,7 @@
         <script src="/bower_components/jquery/dist/jquery.js"></script>
         <script src="/bower_components/underscore/underscore.js"></script>
         <script src="/bower_components/backbone/backbone.js"></script>
+        <script src="/bower_components/backbone.syphon/lib/backbone.syphon.js"></script>
         <script src="/bower_components/marionette/lib/backbone.marionette.js"></script>
         <script src="/bower_components/materialize/bin/materialize.js"></script>
         <script src="/bower_components/markdown/lib/markdown.js"></script>

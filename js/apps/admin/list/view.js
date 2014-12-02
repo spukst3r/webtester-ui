@@ -5,7 +5,7 @@ WebTester.module("AdminApp.List", function(List, WebTester, Backbone, Marionette
     });
 
     List.AdminSections = Marionette.CollectionView.extend({
-        className: "row",
+        className: "row card-panel",
         childView: List.AdminSection,
     });
 });

@@ -1,6 +1,21 @@
 WebTester.module("Models", function(Models, WebTester, Backbone, Marionette, $, _) {
     Models.Section = Backbone.Model.extend({
         urlRoot: "/api/sections",
+        validate: function(attrs, options) {
+            var errors = {};
+
+            if (!attrs.subject) {
+                errors.subject = "Can't be empty";
+            }
+
+            if (!attrs.lection) {
+                errors.lection = "Can't be empty";
+            }
+
+            if (!_.isEmpty(errors)) {
+                return errors;
+            }
+        }
     });
 
     Models.SectionCollection = Backbone.Collection.extend({

@@ -45,5 +45,9 @@ WebTester.module("Helpers", function(Helpers, WebTester, Backbone, Marionette, $
 
             });
         });
-    }
+    };
+
+    Helpers.resizeTextArea = function($element) {
+        $element.height($element[0].scrollHeight);
+    };
 });
