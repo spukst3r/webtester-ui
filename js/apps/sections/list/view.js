@@ -21,7 +21,7 @@ WebTester.module("SectionsApp.List", function(List, WebTester, Backbone, Marione
             };
         }
     });
-    
+
     List.Sections = Marionette.CollectionView.extend({
         className: "row",
         childView: List.Section,

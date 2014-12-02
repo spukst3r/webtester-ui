@@ -3,23 +3,13 @@
 <html>
     <head>
         <link rel="stylesheet" href="/bower_components/materialize/bin/materialize.css">
-        <script src="/bower_components/jquery/dist/jquery.js"></script>
-        <script src="/bower_components/underscore/underscore.js"></script>
-        <script src="/bower_components/backbone/backbone.js"></script>
-        <script src="/bower_components/marionette/lib/backbone.marionette.js"></script>
-        <script src="/bower_components/materialize/bin/materialize.js"></script>
-        <script>
-            $(document).ready(function() {
-                $(".button-collapse").sideNav();
-            })
-        </script>
     </head>
     <body>
         <div class="row">
             <nav>
                 <div class="container">
                     <div class="nav-wrapper">
-                        <a href="/" class="brand-logo">Tester</a>
+                        <a href="/" class="brand-logo">Toster</a>
                         <ul id="nav-mobile" class="right side-nav">
                             <li><a href="/stats">Моя статистика</a></li>
                             <li><a href="/admin">Управление сайтом</a></li>
@@ -54,9 +44,53 @@
         </div>
         </script>
 
+        <script type="text/template" id="admin-section-list-item">
+        <div class="card cyan">
+            <div class="card-image">
+                <span class="card-title"><%= subject %></span>
+            </div>
+            <div class="card-content white-text">
+                <span class="card-title"><%= subject %></span>
+                <p><%= summary %></%></p>
+            </div>
+            <div class="card-action white">
+                <a href="/admin/sections/edit/<%= id %>">Лекция</a>
+                <a href="/admin/questions/edit/<%= id %>">Вопросы</a>
+            </div>
+        </div>
+        </script>
+
+        <script type="text/template" id="admin-section-edit-item">
+        <form class="col s12">
+            <div class="row">
+                <div class="input-field col s6">
+                    <input id="subject" type="text" value="<%= subject %>" required>
+                    <label for="subject">Тема</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s9">
+                    <input id="summary" type="text" value="<%= summary %>" required>
+                    <label for="subject">Краткое содержание</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <textarea><%= lection %></textarea>
+                    <label>Лекция</label>
+                </div>
+            </div>
+            <div class="row">
+                <a href="" class="waves-effect waves-light btn">
+                    <i class="mdi-content-save"></i>Сохранить
+                </a>
+            </div>
+        </form>
+        </script>
+
         <script type="text/template" id="section-show-item">
         <h2><%= subject %></h2>
-        <p class="flow-text"><%= lection %></p>
+        <p class="flow-text"><%= markdown(lection) %></p>
         </script>
 
         <script type="text/template" id="loading-view">
@@ -107,17 +141,35 @@
         Admin main page
         </script>
 
+        <script src="/bower_components/jquery/dist/jquery.js"></script>
+        <script src="/bower_components/underscore/underscore.js"></script>
+        <script src="/bower_components/backbone/backbone.js"></script>
+        <script src="/bower_components/marionette/lib/backbone.marionette.js"></script>
+        <script src="/bower_components/materialize/bin/materialize.js"></script>
+        <script src="/bower_components/markdown/lib/markdown.js"></script>
+
+        <script>
+            $(document).ready(function() {
+                $(".button-collapse").sideNav();
+            })
+        </script>
+
         <script src="/js/app.js"></script>
         <script src="/js/helpers.js"></script>
-        <script src="/js/apps/sections/sections_app.js"></script>
         <script src="/js/apps/common/views.js"></script>
         <script src="/js/models/section.js"></script>
         <script src="/js/models/stats.js"></script>
-        <script src="/js/apps/sections/list/list_controller.js"></script>
-        <script src="/js/apps/sections/list/list_view.js"></script>
-        <script src="/js/apps/sections/show/show_controller.js"></script>
-        <script src="/js/apps/sections/show/show_view.js"></script>
-        <script src="/js/apps/admin/controller.js"></script>
+
+        <script src="/js/apps/sections/sections_app.js"></script>
+        <script src="/js/apps/sections/list/controller.js"></script>
+        <script src="/js/apps/sections/list/view.js"></script>
+        <script src="/js/apps/sections/show/controller.js"></script>
+        <script src="/js/apps/sections/show/view.js"></script>
+        <script src="/js/apps/admin/admin_app.js"></script>
+        <script src="/js/apps/admin/list/controller.js"></script>
+        <script src="/js/apps/admin/list/view.js"></script>
+        <script src="/js/apps/admin/edit/view.js"></script>
+        <script src="/js/apps/admin/edit/controller.js"></script>
         <script src="/js/routers.js"></script>
 
         <script>

@@ -3,7 +3,7 @@ WebTester.module("SectionsApp.Show", function(Show, WebTester, Backbone, Marione
         showSection: function(id) {
             WebTester.Helpers.showLoadingView();
 
-            var sectionPromise = WebTester.request("section:show", id);
+            var sectionPromise = WebTester.request("section:get", id);
 
             $.when(sectionPromise).done(function(section) {
                 var sectionView = new WebTester.SectionsApp.Show.Section({

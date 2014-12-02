@@ -8,9 +8,10 @@ WebTester.module("Routers", function(Routers, WebTester, Backbone, Marionette, $
     });
 
     Routers.AdminRouter = Marionette.AppRouter.extend({
-        controller: WebTester.Admin.Controller,
+        controller: WebTester.AdminApp.API,
         appRoutes: {
-            "admin": "adminMain",
+            "admin": "listSections",
+            "admin/sections/edit/:id": "editSection",
         }
     });
 });

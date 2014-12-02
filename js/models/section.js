@@ -40,7 +40,7 @@ WebTester.module("Models", function(Models, WebTester, Backbone, Marionette, $, 
         return API.getSections();
     });
 
-    WebTester.reqres.setHandler("section:show", function(id) {
+    WebTester.reqres.setHandler("section:get", function(id) {
         return API.getSection(id);
     })
 });
