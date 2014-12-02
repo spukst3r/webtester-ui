@@ -1,9 +1,7 @@
 WebTester.module("SectionsApp.List", function(List, WebTester, Backbone, Marionette, $, _) {
     List.Controller = {
         listSections: function() {
-            var loadingView = new WebTester.Common.Views.LoadingView();
-
-            WebTester.mainRegion.show(loadingView);
+            WebTester.Helpers.showLoadingView();
 
             var sectionsPromise = WebTester.request("section:list");
 
