@@ -4,8 +4,12 @@ WebTester.module("AdminApp.List", function(List, WebTester, Backbone, Marionette
         template: "#admin-section-list-item",
     });
 
-    List.AdminSections = Marionette.CollectionView.extend({
-        className: "row card-panel",
+    List.AdminSections = Marionette.CompositeView.extend({
+        template: "#admin-section-list",
+        childViewContainer: "div",
         childView: List.AdminSection,
+        triggers: {
+            "click #add-section": "section:add",
+        }
     });
 });

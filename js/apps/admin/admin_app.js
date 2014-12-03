@@ -5,6 +5,9 @@ WebTester.module("AdminApp", function(AdminApp, WebTester, Backbone, Marionette,
         },
         editSection: function(id) {
             AdminApp.Edit.Controller.editSection(id);
-        }
+        },
+        newSection: function() {
+            AdminApp.Edit.Controller.newSection();
+        },
     }
 });

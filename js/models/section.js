@@ -1,6 +1,12 @@
 WebTester.module("Models", function(Models, WebTester, Backbone, Marionette, $, _) {
     Models.Section = Backbone.Model.extend({
-        urlRoot: "/api/sections",
+        urlRoot: "/api/sections/",
+        defaults: {
+            subject: "",
+            summary: "",
+            order: 0,
+            lection: "",
+        },
         validate: function(attrs, options) {
             var errors = {};
 

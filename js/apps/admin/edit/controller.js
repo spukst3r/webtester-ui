@@ -10,30 +10,23 @@ WebTester.module("AdminApp.Edit", function(Edit, WebTester, Backbone, Marionette
                     model: section
                 });
 
-                editSectionView.on("section:save", function() {
-                    var data = Backbone.Syphon.serialize(this),
-                        changes = this.model.changedAttributes(data);
-
-                    if (changes) {
-                        this.model.save(changes, {
-                            patch: true,
-                            success: function() {
-                                toast("Сохранено", 3000);
-                            },
-                            error: function(model, response, options) {
-                                console.log(response);
-                                toast("Ошибка при сохранении: " + response.statusText, undefined, "red");
-                            }
-                        });
-                    } else {
-                        toast("Нет изменений", 3000);
-                    }
-                });
-
                 WebTester.mainRegion.show(editSectionView);
                 WebTester.Helpers.resizeTextArea($("#lection"));
                 WebTester.Helpers.initMaterialize();
             });
-        }
+        },
+        newSection: function() {
+            WebTester.Helpers.showLoadingView();
+
+            var newSection = new WebTester.Models.Section();
+
+            var editSectionView = new Edit.EditSectionView({
+                model: newSection,
+            });
+
+            WebTester.mainRegion.show(editSectionView);
+            WebTester.Helpers.resizeTextArea($("#lection"));
+            WebTester.Helpers.initMaterialize();
+        },
     }
 });
