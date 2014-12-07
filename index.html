@@ -64,6 +64,8 @@
                 <p>Редактировать:</p>
                 <a href="/admin/sections/edit/<%= id %>">Лекцию</a>
                 <a href="/admin/questions/edit/<%= id %>">Вопросы</a>
+                <p>Удалить:</p>
+                <a href="" id="section-delete">Лекцию и вопросы</a>
             </div>
         </div>
         </script>
@@ -149,6 +151,10 @@
 
         <script type="text/template" id="admin-main">
         Admin main page
+        </script>
+
+        <script type="text/template" id="static-confirm">
+        Вы уверены?
         </script>
 
         <script src="/bower_components/jquery/dist/jquery.js"></script>

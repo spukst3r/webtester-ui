@@ -10,6 +10,10 @@ WebTester.module("AdminApp.List", function(List, WebTester, Backbone, Marionette
                     collection: sections
                 });
 
+                sectionsView.on("child:section:delete", function() {
+                    console.log("Hi");
+                });
+
                 WebTester.mainRegion.show(sectionsView);
             });
         },

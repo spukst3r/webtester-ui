@@ -2,4 +2,12 @@ WebTester.module("Common.Views", function(Views, WebTester, Backbone, Marionette
     Views.LoadingView = Marionette.ItemView.extend({
         template: "#loading-view"
     });
+
+    Views.Base = Marionette.ItemView.extend({
+        remove: function() {
+            this.$el.slideUp(1000, function() {
+                Marionette.ItemView.prototype.remove.call(this);
+            }.bind(this));
+        }
+    })
 });

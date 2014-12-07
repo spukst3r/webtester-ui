@@ -9,5 +9,8 @@ WebTester.module("AdminApp", function(AdminApp, WebTester, Backbone, Marionette,
         newSection: function() {
             AdminApp.Edit.Controller.newSection();
         },
+        deleteSection: function(id) {
+            AdminApp.Edit.Controller.deleteSection(id);
+        }
     }
 });

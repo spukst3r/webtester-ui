@@ -13,6 +13,7 @@ WebTester.module("Routers", function(Routers, WebTester, Backbone, Marionette, $
             "admin": "listSections",
             "admin/sections/edit/:id": "editSection",
             "admin/sections/new": "newSection",
+            "admin/sections/delete/:id": "deleteSection",
         }
     });
 });

@@ -2,7 +2,7 @@ WebTester.module("AdminApp.Edit", function(Edit, WebTester, Backbone, Marionette
     Edit.EditSectionView = Marionette.ItemView.extend({
         template: "#admin-section-edit-item",
         events: {
-            "click #save-button": "section:save"
+            "click #save-button": "section:save",
         },
         "section:save": function(e) {
             e.preventDefault();

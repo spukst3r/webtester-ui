@@ -28,5 +28,8 @@ WebTester.module("AdminApp.Edit", function(Edit, WebTester, Backbone, Marionette
             WebTester.Helpers.resizeTextArea($("#lection"));
             WebTester.Helpers.initMaterialize();
         },
+        deleteSection: function(id) {
+            console.log(id);
+        },
     }
 });
