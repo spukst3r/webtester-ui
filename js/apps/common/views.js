@@ -5,7 +5,7 @@ WebTester.module("Common.Views", function(Views, WebTester, Backbone, Marionette
 
     Views.Base = Marionette.ItemView.extend({
         remove: function() {
-            this.$el.slideUp(1000, function() {
+            this.$el.slideUp(800, function() {
                 Marionette.ItemView.prototype.remove.call(this);
             }.bind(this));
         }
