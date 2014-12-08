@@ -2,27 +2,40 @@
 <meta charset="utf-8">
 <html>
     <head>
-        <link rel="stylesheet" href="/bower_components/materialize/bin/materialize.css">
+        <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css">
         <link rel="stylesheet" href="/css/site.css">
     </head>
     <body>
-        <div class="row">
-            <nav>
-                <div class="container">
-                    <div class="nav-wrapper">
-                        <a href="/" class="brand-logo">Toster</a>
-                        <ul id="nav-mobile" class="right side-nav">
-                            <li><a href="/stats">Моя статистика</a></li>
-                            <li><a href="/admin">Управление сайтом</a></li>
-                        </ul>
-                        <a class="button-collapse" href="#" data-activates="nav-mobile"><i class="mdi-navigation-menu"></i></a>
-                    </div>
-                </div>
-            </nav>
-        </div>
+        <header id="top" class="navbar navbar-static-top" role="banner">
+            <div class="container">
+                <nav class="navbar navbar-default" role="navigation">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="/">Кот Саймон изучает геометрию</a>
+                        </div>
 
-        <div id="main-region" class="container">
-            <p>Web app is loading, please wait.</p>
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a href="/stats">Моя статистика</a></li>
+                                <li><a href="/admin">Управление сайтом</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        <div class="container">
+            <div id="alert-area"></div>
+            <div id="main-region">
+                <p>Web app is loading, please wait.</p>
+            </div>
         </div>
 
         <script type="text/template" id="static-template">
@@ -30,72 +43,100 @@
         </script>
 
         <script type="text/template" id="admin-section-list">
-        <div class="row card-panel">
+        <p>
+            <a class="btn btn-primary" href="/admin/sections/new">Добавить лекцию</a>
+        </p>
+        <div>
         </div>
-        <a class="btn-floating float" href="/admin/sections/new"><i class="mdi-content-add"></i></a>
+        <!--<a class="btn-floating float" href="/admin/sections/new"><i class="mdi-content-add"></i></a>-->
         </script>
 
         <script type="text/template" id="section-list-item">
-        <div class="card <%= cycleColors() %>">
-            <div class="card-image">
-                <span class="card-title"><%= subject %></span>
-            </div>
-            <div class="card-content white-text">
-                <span class="card-title"><%= subject %></span>
-                <p><%= summary %></%></p>
-            </div>
-            <div class="card-action white">
-                <a href="/sections/<%= id %>">Читать лекцию</a>
-                <a href="#">Пройти тест</a>
-            </div>
-        </div>
+        <h2><%= subject %></h2>
+        <p class="lead"><%= summary %></p>
+        <a href="/sections/<%= id %>" class="btn btn-primary">Читать лекцию</a>
+        <a href="/sections/<%= id %>" class="btn btn-default">Пройти тест</a>
         </script>
 
         <script type="text/template" id="admin-section-list-item">
-        <div class="card cyan">
-            <div class="card-image">
-                <span class="card-title"><%= subject %></span>
+        <h2><%= subject %></h2>
+        <p><%= summary %></p>
+        <a href="/admin/sections/edit/<%= id %>" class="btn btn-default">Редактировать</a>
+        <a href="" id="section-delete" class="btn btn-danger">Удалить</a>
+        </script>
+
+        <script type="text/template" id="admin-section-edit-item">
+        <h2>Лекция</h2>
+        <p><button type="button" class="btn btn-default" id="save-button">Сохранить</button></p>
+        <form class="form">
+            <div class="form-group">
+                <label for="subject">Тема</label>
+                <input class="form-control" name="subject" type="text" value="<%= subject %>" required>
             </div>
-            <div class="card-content white-text">
-                <span class="card-title"><%= subject %></span>
-                <p><%= summary %></%></p>
+            <div class="form-group">
+                <label for="subject">Краткое содержание</label>
+                <input class="form-control" name="summary" type="text" value="<%= summary %>" required>
             </div>
-            <div class="card-action white">
-                <p>Редактировать:</p>
-                <a href="/admin/sections/edit/<%= id %>">Лекцию</a>
-                <a href="/admin/questions/edit/<%= id %>">Вопросы</a>
-                <p>Удалить:</p>
-                <a href="" id="section-delete">Лекцию и вопросы</a>
+            <div class="form-group">
+                <label for="lection">Содержание</label>
+                <textarea class="form-control" name="lection" id="lection" rows="20" data-provide="markdown-editable"><%= lection %></textarea>
+            </div>
+            <h2>Вопросы</h2>
+            <p id="questions"></p>
+            <button type="button" class="btn btn-primary" id="question-add">Добавить вопрос</button>
+        </form>
+        </script>
+
+        <script type="text/template" id="admin-answer-edit-item">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label for="text" class="col-sm-2 control-label">Вариант ответа</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" value="<%= text %>" name="text">
+                </div>
+                <div class="col-sm-3">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="correct" <% if (correct) { %> <%= "checked" %> <% } %>> Правильный ответ
+                        </label>
+                    </div>
+                </div>
+                <div class="col-sm-1">
+                    <button type="button" class="close" id="answer-delete"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                </div>
+            </div>
+        </form>
+        </script>
+
+        <script type="text/template" id="admin-question-edit-item">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="question" class="col-sm-2 control-label">Вопрос</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="question" value="<%= question %>">
+                        </div>
+                    </div>
+                </form>
+                <div class="col-sm-10 col-md-offset-2" id="answers">
+                </div>
+                <div class="col-md-offset-8">
+                    <button class="btn btn-default" type="button" id="answer-add">Добавить вариант ответа</button>
+                    <button class="btn btn-danger" type="button" id="question-delete">Удалить вопрос</button>
+                </div>
             </div>
         </div>
         </script>
 
-        <script type="text/template" id="admin-section-edit-item">
-        <form class="col s12">
-            <div class="row">
-                <div class="input-field col s6">
-                    <input name="subject" type="text" value="<%= subject %>" required>
-                    <label for="subject">Тема</label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="input-field col s9">
-                    <input name="summary" type="text" value="<%= summary %>" required>
-                    <label for="subject">Краткое содержание</label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="input-field col s12">
-                    <textarea name="lection" id="lection"><%= lection %></textarea>
-                    <label>Лекция</label>
-                </div>
-            </div>
-            <div class="row">
-                <a href="" class="waves-effect waves-light btn" id="save-button">
-                    <i class="mdi-content-save"></i>Сохранить
-                </a>
-            </div>
-        </form>
+        <script type="text/template" id="alert-message">
+        <div class="alert alert-<%= level %> alert-dismissable fade in">
+            <button class="close" data-dismiss="alert" type="button">
+                <span aria-hidden="true"></span>
+                <span class="sr-only"></span>
+            </button>
+            <strong><%= text %></strong>
+        </div>
         </script>
 
         <script type="text/template" id="section-show-item">
@@ -106,47 +147,7 @@
         </script>
 
         <script type="text/template" id="loading-view">
-        <div class="preloader-wrapper big active">
-            <div class="spinner-layer spinner-blue">
-                <div class="circle-clipper left">
-                    <div class="circle"></div>
-                </div><div class="gap-patch">
-                <div class="circle"></div>
-                </div><div class="circle-clipper right">
-                <div class="circle"></div>
-                </div>
-            </div>
-
-            <div class="spinner-layer spinner-red">
-                <div class="circle-clipper left">
-                    <div class="circle"></div>
-                </div><div class="gap-patch">
-                <div class="circle"></div>
-                </div><div class="circle-clipper right">
-                <div class="circle"></div>
-                </div>
-            </div>
-
-            <div class="spinner-layer spinner-yellow">
-                <div class="circle-clipper left">
-                    <div class="circle"></div>
-                </div><div class="gap-patch">
-                <div class="circle"></div>
-                </div><div class="circle-clipper right">
-                <div class="circle"></div>
-                </div>
-            </div>
-
-            <div class="spinner-layer spinner-green">
-                <div class="circle-clipper left">
-                    <div class="circle"></div>
-                </div><div class="gap-patch">
-                <div class="circle"></div>
-                </div><div class="circle-clipper right">
-                <div class="circle"></div>
-                </div>
-            </div>
-        </div>
+        Пожалуйста, подождите.
         </script>
 
         <script type="text/template" id="admin-main">
@@ -162,19 +163,18 @@
         <script src="/bower_components/backbone/backbone.js"></script>
         <script src="/bower_components/backbone.syphon/lib/backbone.syphon.js"></script>
         <script src="/bower_components/marionette/lib/backbone.marionette.js"></script>
-        <script src="/bower_components/materialize/bin/materialize.js"></script>
+        <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
         <script src="/bower_components/markdown/lib/markdown.js"></script>
-
-        <script>
-            $(document).ready(function() {
-                $(".button-collapse").sideNav();
-            })
-        </script>
+        <script src="/bower_components/bootstrap-markdown/js/bootstrap-markdown.js"></script>
+        <script src="/bower_components/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
         <script src="/js/app.js"></script>
         <script src="/js/helpers.js"></script>
         <script src="/js/apps/common/views.js"></script>
+        <script src="/js/models/base.js"></script>
         <script src="/js/models/section.js"></script>
+        <script src="/js/models/question.js"></script>
+        <script src="/js/models/answer.js"></script>
         <script src="/js/models/stats.js"></script>
 
         <script src="/js/apps/sections/sections_app.js"></script>

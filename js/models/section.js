@@ -1,11 +1,12 @@
 WebTester.module("Models", function(Models, WebTester, Backbone, Marionette, $, _) {
-    Models.Section = Backbone.Model.extend({
+    Models.Section = WebTester.Models.Base.extend({
+        blacklist: ['questions'],
         urlRoot: "/api/sections/",
         defaults: {
             subject: "",
             summary: "",
             order: 0,
-            lection: "",
+            lection: ""
         },
         validate: function(attrs, options) {
             var errors = {};
@@ -21,6 +22,31 @@ WebTester.module("Models", function(Models, WebTester, Backbone, Marionette, $, 
             if (!_.isEmpty(errors)) {
                 return errors;
             }
+        },
+        parse: function(response, options) {
+            var questions = response.questions;
+            response.questions = [];
+
+            function parseAnswers(answerList) {
+                var answers = [];
+
+                _.each(answerList, function(a) {
+                    var ans = new Models.Answer(a);
+                    answers.push(ans);
+                });
+
+                return answers;
+            }
+
+            _.each(questions, function(q) {
+                q.answers = parseAnswers(q.answers);
+
+                var question = new Models.Question(q);
+
+                response.questions.push(question);
+            });
+
+            return response;
         }
     });
 
@@ -34,13 +60,13 @@ WebTester.module("Models", function(Models, WebTester, Backbone, Marionette, $, 
         getSections: function() {
             var sections = new Models.SectionCollection();
             var defer = $.Deferred();
-            
+
             sections.fetch({
                 success: function(data) {
                     defer.resolve(data);
                 }
             });
-            
+
             return defer.promise();
         },
         getSection: function(id) {
@@ -56,7 +82,7 @@ WebTester.module("Models", function(Models, WebTester, Backbone, Marionette, $, 
             return defer.promise();
         }
     };
-    
+
     WebTester.reqres.setHandler("section:list", function() {
         return API.getSections();
     });

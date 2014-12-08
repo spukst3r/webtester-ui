@@ -1,4 +1,19 @@
 WebTester.module("AdminApp.Edit", function(Edit, WebTester, Backbone, Marionette, $, _) {
+    function showEditView(model) {
+        var editSectionView = new Edit.EditSectionView({
+            model: model,
+            collection: new Backbone.Collection(model.get("questions")),
+        });
+
+        WebTester.mainRegion.show(editSectionView);
+        WebTester.Helpers.resizeTextArea($("#lection"));
+        $("#lection").markdown({
+            fullscreen: {
+                enable: false
+            }
+        });
+    };
+
     Edit.Controller = {
         editSection: function(id) {
             WebTester.Helpers.showLoadingView();
@@ -6,13 +21,7 @@ WebTester.module("AdminApp.Edit", function(Edit, WebTester, Backbone, Marionette
             var sectionPromise = WebTester.request("section:get", id);
 
             $.when(sectionPromise).done(function(section) {
-                var editSectionView = new Edit.EditSectionView({
-                    model: section
-                });
-
-                WebTester.mainRegion.show(editSectionView);
-                WebTester.Helpers.resizeTextArea($("#lection"));
-                WebTester.Helpers.initMaterialize();
+                showEditView(section);
             });
         },
         newSection: function() {
@@ -20,16 +29,7 @@ WebTester.module("AdminApp.Edit", function(Edit, WebTester, Backbone, Marionette
 
             var newSection = new WebTester.Models.Section();
 
-            var editSectionView = new Edit.EditSectionView({
-                model: newSection,
-            });
-
-            WebTester.mainRegion.show(editSectionView);
-            WebTester.Helpers.resizeTextArea($("#lection"));
-            WebTester.Helpers.initMaterialize();
-        },
-        deleteSection: function(id) {
-            console.log(id);
+            showEditView(newSection);
         },
     }
 });

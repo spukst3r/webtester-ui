@@ -11,6 +11,9 @@ WebTester.module("AdminApp", function(AdminApp, WebTester, Backbone, Marionette,
         },
         deleteSection: function(id) {
             AdminApp.Edit.Controller.deleteSection(id);
+        },
+        listQuestions: function(sectionId) {
+            AdminApp.List.Controller.listSections(sectionId);
         }
     }
 });

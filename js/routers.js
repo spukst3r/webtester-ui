@@ -14,6 +14,7 @@ WebTester.module("Routers", function(Routers, WebTester, Backbone, Marionette, $
             "admin/sections/edit/:id": "editSection",
             "admin/sections/new": "newSection",
             "admin/sections/delete/:id": "deleteSection",
+            "admin/questions/:id": "listQuestions",
         }
     });
 });

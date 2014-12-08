@@ -20,8 +20,13 @@
   ],
   "dependencies": {
     "marionette": "~2.2.2",
-    "materialize": "*",
     "markdown": "~0.5.0",
-    "backbone.syphon": "~0.4.1"
+    "backbone.syphon": "~0.4.1",
+    "bootstrap-markdown": "~2.7.0",
+    "bootstrap": "3.3.1",
+    "MathJax": "~2.4.0"
+  },
+  "resolutions": {
+    "bootstrap": "3.3.1"
   }
 }

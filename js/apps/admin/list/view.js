@@ -1,6 +1,6 @@
 WebTester.module("AdminApp.List", function(List, WebTester, Backbone, Marionette, $, _) {
     List.AdminSection = WebTester.Common.Views.Base.extend({
-        className: "col s12 m6",
+        className: "col-xs-6",
         template: "#admin-section-list-item",
         triggers: {
             "click #section-delete": "section:delete",
