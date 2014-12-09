@@ -4,7 +4,7 @@ WebTester.module("SectionsApp", function(SectionsApp, WebTester, Backbone, Mario
             SectionsApp.List.Controller.listSections();
         },
         showSection: function(id) {
-            SectionsApp.Show.Controller.showSection(id);
+            WebTester.trigger("section:show", id);
         },
     };
 
@@ -15,6 +15,6 @@ WebTester.module("SectionsApp", function(SectionsApp, WebTester, Backbone, Mario
 
     WebTester.on("section:show", function(id) {
         WebTester.navigate("sections/" + id);
-        SectionsApp.API.showSection(id);
+        SectionsApp.Show.Controller.showSection(id);
     });
 });

@@ -10,6 +10,14 @@ WebTester.module("SectionsApp.List", function(List, WebTester, Backbone, Marione
                     collection: sections,
                 });
 
+                sectionsView.on("section:show", function() {
+                    WebTester.trigger("section:show", this.model.id);
+                });
+
+                sectionsView.on("section:show:test", function() {
+                    WebTester.trigger("section:show:test", this.model.id);
+                });
+
                 WebTester.mainRegion.show(sectionsView);
             });
         }

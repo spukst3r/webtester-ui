@@ -7,8 +7,8 @@
     </head>
     <body>
         <header id="top" class="navbar navbar-static-top" role="banner">
-            <div class="container">
-                <nav class="navbar navbar-default" role="navigation">
+            <nav class="navbar navbar-default navbar-static-top" role="navigation">
+                <div class="container">
                     <div class="container-fluid">
                         <div class="navbar-header">
                             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -17,7 +17,7 @@
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <a class="navbar-brand" href="/">Кот Саймон изучает геометрию</a>
+                            <a class="navbar-brand" href="/">Кот Саймона изучает геометрию</a>
                         </div>
 
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -27,8 +27,8 @@
                             </ul>
                         </div>
                     </div>
-                </nav>
-            </div>
+                </div>
+            </nav>
         </header>
 
         <div class="container">
@@ -53,9 +53,9 @@
 
         <script type="text/template" id="section-list-item">
         <h2><%= subject %></h2>
-        <p class="lead"><%= summary %></p>
-        <a href="/sections/<%= id %>" class="btn btn-primary">Читать лекцию</a>
-        <a href="/sections/<%= id %>" class="btn btn-default">Пройти тест</a>
+        <p><%= summary %></p>
+        <button type="button" class="btn btn-primary" id="lection-show">Читать лекцию</button>
+        <button type="button" class="btn btn-default" id="test-show">Пройти тест</button>
         </script>
 
         <script type="text/template" id="admin-section-list-item">
@@ -73,6 +73,10 @@
                 <label for="subject">Тема</label>
                 <input class="form-control" name="subject" type="text" value="<%= subject %>" required>
             </div>
+            <div class="form-group">
+                <label for="order">Номер п/п</label>
+                <input class="form-control" name="order" type="number" value="<%= order %>" required>
+            <div>
             <div class="form-group">
                 <label for="subject">Краткое содержание</label>
                 <input class="form-control" name="summary" type="text" value="<%= summary %>" required>
@@ -140,10 +144,60 @@
         </script>
 
         <script type="text/template" id="section-show-item">
-        <div class="card-panel">
-            <h1><%= subject %></h1>
-            <p class="flow-text"><%= markdown(lection) %></p>
+        <h1 class="page-header">Лекция</h1>
+        <h2><%= subject %></h2>
+        <p><%= markdown(lection) %></p>
+
+        <% if (!empty(questions)) { %>
+        <h1 class="page-header">Тест</h1>
+        <form>
+            <div class="list-group">
+                <% _.each(questions, function(question, n) { %>
+                <div class="list-group-item">
+                    <div class="list-group-item-heading">
+                        <h4>Вопрос <%= n + 1 %> <span class="label" id="question-label-<%= question.id %>"></span></h4>
+                    </div>
+                    <p class="list-group-item-text">
+                        <p><%= question.question %></p>
+                        <% if (question.answer_variants.length == 1) { %>
+                            <% var answer = question.answer_variants[0]; %>
+                            <input type="text" name="<%= answer.id %>" class="form-control" placeholder="Введите ответ">
+                        <% } else { %>
+                            <% _.each(question.answer_variants, function(answer) { %>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="<%= answer.id %>"> <%= answer.text %>
+                                </label>
+                            </div>
+                            <% }) %>
+                        <% } %>
+                    </p>
+                </div>
+                <% }) %>
+            </div>
+        </form>
+        <% } %>
+        <div class="container">
+            <button type="button" class="btn btn-default" id="submit-quiz">Отправить ответы</button>
         </div>
+        <div class="container" id="results">
+        </div>
+        </script>
+
+        <script type="text/template" id="results-view">
+        <h1 class="page-header">Результат</h1>
+            <div class="progress">
+                <div class="progress-bar"
+                     role="progressbar"
+                     aria-valuenow="<%= correct %>"
+                     aria-valuemin="0"
+                     aria-valuemax="<%= total %>"
+                     style="width: <%= correct / total * 100 %>%">
+                </div>
+            </div>
+            <center>
+                <h1><%= correct / total * 100 %>%</h1>
+            </center>
         </script>
 
         <script type="text/template" id="loading-view">
@@ -175,6 +229,7 @@
         <script src="/js/models/section.js"></script>
         <script src="/js/models/question.js"></script>
         <script src="/js/models/answer.js"></script>
+        <script src="/js/models/quiz.js"></script>
         <script src="/js/models/stats.js"></script>
 
         <script src="/js/apps/sections/sections_app.js"></script>
