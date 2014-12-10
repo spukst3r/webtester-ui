@@ -27,6 +27,13 @@ WebTester.module("AdminApp.Edit", function(Edit, WebTester, Backbone, Marionette
         },
         "question:delete": function() {
             this.model.destroy();
+        },
+        onShow: function(arguments) {
+            $("#question-" + this.model.id).markdown({
+                fullscreen: {
+                    enable: false
+                }
+            });
         }
     });
 
@@ -47,6 +54,13 @@ WebTester.module("AdminApp.Edit", function(Edit, WebTester, Backbone, Marionette
             var view = new ChildViewClass(options);
 
             return view;
+        },
+        onShow: function(arguments) {
+            $("#lection, #summary").markdown({
+                fullscreen: {
+                    enable: false
+                }
+            });
         }
     });
 });

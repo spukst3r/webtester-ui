@@ -1,8 +1,10 @@
 WebTester.module("AdminApp.Edit", function(Edit, WebTester, Backbone, Marionette, $, _) {
     function showEditView(model) {
+        var questionCollection = new Backbone.Collection(model.get("questions"));
+
         var editSectionView = new Edit.EditSectionView({
             model: model,
-            collection: new Backbone.Collection(model.get("questions")),
+            collection: questionCollection,
         });
 
         editSectionView.on("section:save", saveSection);
@@ -10,11 +12,6 @@ WebTester.module("AdminApp.Edit", function(Edit, WebTester, Backbone, Marionette
 
         WebTester.mainRegion.show(editSectionView);
         WebTester.Helpers.resizeTextArea($("#lection"));
-        $("#lection").markdown({
-            fullscreen: {
-                enable: false
-            }
-        });
     };
 
     function addQuestion(args) {

@@ -6,7 +6,8 @@ WebTester.module("Models", function(Models, WebTester, Backbone, Marionette, $, 
             subject: "",
             summary: "",
             order: 0,
-            lection: ""
+            lection: "",
+            section_type: "lection",
         },
         validate: function(attrs, options) {
             var errors = {};

@@ -4,6 +4,12 @@ WebTester.addRegions({
     mainRegion: "#main-region",
 });
 
+WebTester.mainRegion.on("show", function(view) {
+    setTimeout(function() {
+        WebTester.Helpers.mathjaxTypeset();
+    }, 200);
+})
+
 WebTester.navigate = function(route, options) {
     options = options || {};
     Backbone.history.navigate(route, options);

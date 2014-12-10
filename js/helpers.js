@@ -24,5 +24,13 @@ WebTester.module("Helpers", function(Helpers, WebTester, Backbone, Marionette, $
         } else {
             $(message).appendTo($('#alert-area')).fadeIn(500);
         }
-    }
+    };
+
+    Helpers.mathjaxTypeset = function() {
+        console.log("Typesetting");
+
+        var queue = MathJax.Hub.queue;
+
+        queue.Push(["Typeset", MathJax.Hub]);
+    };
 });

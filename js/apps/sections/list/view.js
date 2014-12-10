@@ -1,6 +1,11 @@
 WebTester.module("SectionsApp.List", function(List, WebTester, Backbone, Marionette, $, _) {
     List.Section = Marionette.ItemView.extend({
-        className: "col-xs-6",
+        className: function() {
+            if (this.model.get('section_type') === 'theme') {
+                return "col-md-12";
+            }
+            return "col-xs-6";
+        },
         template: "#section-list-item",
         triggers: {
             "click #lection-show": "section:show",

@@ -17,7 +17,9 @@
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <a class="navbar-brand" href="/">Кот Саймона изучает геометрию</a>
+                            <a class="navbar-brand" href="/">
+                                <img alt="Simon's cat" src="/img/cat.svg">
+                            </a>
                         </div>
 
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -44,7 +46,7 @@
 
         <script type="text/template" id="admin-section-list">
         <p>
-            <a class="btn btn-primary" href="/admin/sections/new">Добавить лекцию</a>
+            <a class="btn btn-primary" href="/admin/sections/new">Добавить лекцию/тему</a>
         </p>
         <div>
         </div>
@@ -52,10 +54,18 @@
         </script>
 
         <script type="text/template" id="section-list-item">
+        <% if (section_type == 'theme') { %>
+        <h1 class="page-header"><%= subject %></h1>
+        <% } else { %>
         <h2><%= subject %></h2>
-        <p><%= summary %></p>
+        <% } %>
+
+        <p><%= markdown.toHTML(summary) %></p>
+        <% if (section_type === 'theme') { %>
+        <button type="button" class="btn btn-primary" id="lection-show">Пройти контрольную</button>
+        <% } else { %>
         <button type="button" class="btn btn-primary" id="lection-show">Читать лекцию</button>
-        <button type="button" class="btn btn-default" id="test-show">Пройти тест</button>
+        <% } %>
         </script>
 
         <script type="text/template" id="admin-section-list-item">
@@ -66,9 +76,23 @@
         </script>
 
         <script type="text/template" id="admin-section-edit-item">
-        <h2>Лекция</h2>
         <p><button type="button" class="btn btn-default" id="save-button">Сохранить</button></p>
         <form class="form">
+            <div class="form-group">
+                <label for="section_type">Тип</label>
+                <select class="form-control" name="section_type">
+                    <% _.each([{value: "lection", desc: "Лекция"},
+                               {value: "theme", desc: "Тема"}
+                              ], function(e) { %>
+                        <option
+                            value="<%= e.value %>"
+                            <% if (section_type == e.value) { %>
+                            <%= "selected" %>
+                            <% } %>
+                        ><%= e.desc %></option>
+                    <% }) %>
+                </select>
+            </div>
             <div class="form-group">
                 <label for="subject">Тема</label>
                 <input class="form-control" name="subject" type="text" value="<%= subject %>" required>
@@ -79,7 +103,7 @@
             <div>
             <div class="form-group">
                 <label for="subject">Краткое содержание</label>
-                <input class="form-control" name="summary" type="text" value="<%= summary %>" required>
+                <textarea class="form-control" name="summary" id="summary" rows="8" data-provide="markdown-editable"><%= summary %></textarea>
             </div>
             <div class="form-group">
                 <label for="lection">Содержание</label>
@@ -118,8 +142,8 @@
                 <form class="form-horizontal">
                     <div class="form-group">
                         <label for="question" class="col-sm-2 control-label">Вопрос</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" name="question" value="<%= question %>">
+                        <div class="col-sm-8">
+                            <textarea class="form-control" id="question-<%= id %>" name="question" rows="5" data-provide="markdown-editable"><%= question %></textarea>
                         </div>
                     </div>
                 </form>
@@ -146,7 +170,7 @@
         <script type="text/template" id="section-show-item">
         <h1 class="page-header">Лекция</h1>
         <h2><%= subject %></h2>
-        <p><%= markdown(lection) %></p>
+        <p><%= markdown.toHTML(lection) %></p>
 
         <% if (!empty(questions)) { %>
         <h1 class="page-header">Тест</h1>
@@ -158,7 +182,7 @@
                         <h4>Вопрос <%= n + 1 %> <span class="label" id="question-label-<%= question.id %>"></span></h4>
                     </div>
                     <p class="list-group-item-text">
-                        <p><%= question.question %></p>
+                        <p><%= markdown.toHTML(question.question) %></p>
                         <% if (question.answer_variants.length == 1) { %>
                             <% var answer = question.answer_variants[0]; %>
                             <input type="text" name="<%= answer.id %>" class="form-control" placeholder="Введите ответ">
@@ -176,12 +200,12 @@
                 <% }) %>
             </div>
         </form>
-        <% } %>
         <div class="container">
             <button type="button" class="btn btn-default" id="submit-quiz">Отправить ответы</button>
         </div>
         <div class="container" id="results">
         </div>
+        <% } %>
         </script>
 
         <script type="text/template" id="results-view">
@@ -192,11 +216,12 @@
                      aria-valuenow="<%= correct %>"
                      aria-valuemin="0"
                      aria-valuemax="<%= total %>"
-                     style="width: <%= correct / total * 100 %>%">
+                     style="width: <%= percentage %>%">
                 </div>
             </div>
             <center>
-                <h1><%= correct / total * 100 %>%</h1>
+                <h1><%= percentage %>%</h1>
+                <h2>Ваша оценка: <strong><%= mark %></strong></h2>
             </center>
         </script>
 
@@ -210,6 +235,19 @@
 
         <script type="text/template" id="static-confirm">
         Вы уверены?
+        </script>
+
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+            extensions: ["tex2jax.js"],
+            jax: ["input/TeX", "output/HTML-CSS"],
+            tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+              displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+              processEscapes: true
+            },
+            "HTML-CSS": { availableFonts: ["TeX"] }
+          });
         </script>
 
         <script src="/bower_components/jquery/dist/jquery.js"></script>
