@@ -63,8 +63,13 @@ WebTester.module("Models", function(Models, WebTester, Backbone, Marionette, $, 
             var defer = $.Deferred();
 
             sections.fetch({
-                success: function(data) {
-                    defer.resolve(data);
+                success: function(collection, response, options) {
+                    defer.resolve(collection);
+                },
+                error: function(collection, response, options) {
+                    if (response.statusText === 'FORBIDDEN') {
+                        WebTester.trigger("authorize");
+                    }
                 }
             });
 
@@ -75,8 +80,8 @@ WebTester.module("Models", function(Models, WebTester, Backbone, Marionette, $, 
             var defer = $.Deferred();
 
             model.fetch({
-                success: function(data) {
-                    defer.resolve(data);
+                success: function(collection, response, options) {
+                    defer.resolve(collection);
                 }
             });
 

@@ -18,11 +18,7 @@ WebTester.module("AdminApp.List", function(List, WebTester, Backbone, Marionette
             "section:delete": "sectionDelete",
         },
         sectionDelete: function(args) {
-            var confirmDeletion = confirm(
-                _.template(
-                    $("#static-confirm").html()
-                )({})
-            );
+            var confirmDeletion = confirm(WebTester.Helpers.getStaticText("#static-confirm"));
 
             if (confirmDeletion) {
                 args.model.destroy();

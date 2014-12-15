@@ -39,7 +39,8 @@ WebTester.addInitializer(function() {
 WebTester.on("start", function() {
     var routers = [
         WebTester.Routers.SectionsRouter,
-        WebTester.Routers.AdminRouter
+        WebTester.Routers.AdminRouter,
+        WebTester.Routers.AuthRouter,
     ];
 
     _.each(routers, function(Router) {

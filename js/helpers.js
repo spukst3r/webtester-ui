@@ -33,4 +33,11 @@ WebTester.module("Helpers", function(Helpers, WebTester, Backbone, Marionette, $
 
         queue.Push(["Typeset", MathJax.Hub]);
     };
+
+    Helpers.getStaticText = function(id, obj) {
+        obj = obj || {};
+        var template = _.template($(id).html());
+
+        return template(obj).trim();
+    }
 });

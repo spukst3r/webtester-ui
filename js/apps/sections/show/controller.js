@@ -35,9 +35,7 @@ WebTester.module("SectionsApp.Show", function(Show, WebTester, Backbone, Marione
             stats.mark = 2;
         }
 
-        var template = _.template($("#results-view").text());
-
-        $("#results").html(template(stats));
+        $("#results").html(WebTester.Helpers.getStaticText("#results-view", stats));
     }
 
     Show.Controller = {

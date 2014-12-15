@@ -17,4 +17,11 @@ WebTester.module("Routers", function(Routers, WebTester, Backbone, Marionette, $
             "admin/questions/:id": "listQuestions",
         }
     });
+
+    Routers.AuthRouter = Marionette.AppRouter.extend({
+        controller: WebTester.AuthApp.API,
+        appRoutes: {
+            "authorize": "authorizeUser",
+        },
+    });
 });
