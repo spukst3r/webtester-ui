@@ -47,22 +47,27 @@ WebTester.module("AdminApp.Edit", function(Edit, WebTester, Backbone, Marionette
         }
 
         getChanges(this, changes);
+        var showAlert = _.once(WebTester.Helpers.showAlert);
 
         if (!_.isEmpty(changes)) {
             _.each(changes, function(c) {
                 c.model.save(c.changes, {
                     patch: true,
                     success: function() {
-                        WebTester.Helpers.showAlert("Сохранено");
+                        showAlert(WebTester.Helpers.getStaticText("#static-save-success", undefined, 2000));
                     },
                     error: function(model, response, options) {
                         console.log(response);
-                        WebTester.Helpers.showAlert("Ошибка при сохранении: " + response.statusText, "danger");
+                        WebTester.Helpers.showAlert(
+                            WebTester.Helpers.getStaticText("#static-save-error")
+                            + ": "
+                            + response.statusText, "danger"
+                        );
                     }
                 });
             });
         } else {
-            WebTester.Helpers.showAlert("Нет изменений", undefined, 3000);
+            WebTester.Helpers.showAlert(WebTester.Helpers.getStaticText("#static-no-changes"), undefined, 3000);
         }
     }
 
@@ -79,9 +84,16 @@ WebTester.module("AdminApp.Edit", function(Edit, WebTester, Backbone, Marionette
         newSection: function() {
             WebTester.Helpers.showLoadingView();
 
-            var newSection = new WebTester.Models.Section();
+            var newSection = new WebTester.Models.Section({});
 
-            showEditView(newSection);
+            newSection.save({}, {
+                success: function(model, response, options) {
+                    showEditView(model);
+                },
+                error: function() {
+                    console.log(arguments);
+                }
+            });
         },
     }
 });

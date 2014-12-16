@@ -21,11 +21,12 @@ WebTester.module("AuthApp.Show", function(Show, WebTester, Backbone, Marionette,
                         contentType: "application/json; charset=utf-8",
                         success: function() {
                             WebTester.trigger("section:list");
+                            WebTester.trigger("stats:nav:update");
                         },
                         error: function() {
                             console.log(arguments);
                         }
-                    })
+                    });
                 } else {
                     this.triggerMethod("form:validation:error", args.model.validationError);
                 }
@@ -67,6 +68,7 @@ WebTester.module("AuthApp.Show", function(Show, WebTester, Backbone, Marionette,
                 contentType: 'application/json; charset=utf-8',
                 success: function() {
                     WebTester.Helpers.showAlert(WebTester.Helpers.getStaticText('#auth-logout-success'), 'info', 1000);
+                    WebTester.trigger("stats:nav:update");
                 }
             })
         }

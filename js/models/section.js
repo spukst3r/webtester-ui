@@ -3,10 +3,10 @@ WebTester.module("Models", function(Models, WebTester, Backbone, Marionette, $, 
         blacklist: ['questions'],
         urlRoot: "/api/sections/",
         defaults: {
-            subject: "",
-            summary: "",
+            subject: "Новая лекция",
+            summary: "Новая лекция",
             order: 0,
-            lection: "",
+            lection: "Содержимое лекции",
             section_type: "lection",
         },
         validate: function(attrs, options) {
@@ -21,6 +21,7 @@ WebTester.module("Models", function(Models, WebTester, Backbone, Marionette, $, 
             }
 
             if (!_.isEmpty(errors)) {
+                console.log(errors);
                 return errors;
             }
         },
@@ -68,7 +69,7 @@ WebTester.module("Models", function(Models, WebTester, Backbone, Marionette, $, 
                 },
                 error: function(collection, response, options) {
                     if (response.statusText === 'FORBIDDEN') {
-                        WebTester.trigger("authorize");
+                        WebTester.trigger("auth:login");
                     }
                 }
             });

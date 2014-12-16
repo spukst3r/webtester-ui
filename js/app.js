@@ -2,13 +2,14 @@ var WebTester = new Marionette.Application();
 
 WebTester.addRegions({
     mainRegion: "#main-region",
+    navRegion: "#nav-region",
 });
 
 WebTester.mainRegion.on("show", function(view) {
     setTimeout(function() {
         WebTester.Helpers.mathjaxTypeset();
     }, 200);
-})
+});
 
 WebTester.navigate = function(route, options) {
     options = options || {};
@@ -27,7 +28,7 @@ WebTester.addInitializer(function() {
         if (!passThrough && !e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
             e.preventDefault();
 
-            href = href.replace(/^\//, "")
+            href = href.replace(/^\//, "");
 
             console.log(href);
 
@@ -36,11 +37,17 @@ WebTester.addInitializer(function() {
     })
 });
 
+WebTester.addInitializer(function() {
+    Backbone.Syphon.InputReaders.register("number", function(el) {
+        return parseInt(el.val());
+    });
+});
+
 WebTester.on("start", function() {
     var routers = [
         WebTester.Routers.SectionsRouter,
         WebTester.Routers.AdminRouter,
-        WebTester.Routers.AuthRouter,
+        WebTester.Routers.AuthRouter
     ];
 
     _.each(routers, function(Router) {
@@ -54,4 +61,6 @@ WebTester.on("start", function() {
     if (this.getCurrentRoute() === "") {
         WebTester.trigger("section:list");
     }
+
+    WebTester.trigger("stats:nav:update");
 });
