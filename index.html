@@ -52,7 +52,6 @@
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-right">
                             <% if (typeof user !== 'undefined') { %>
-                            <li><a href="/stats">Моя статистика</a></li>
                             <% if (isAdmin) { %>
                             <li><a href="/admin">Управление сайтом</a></li>
                             <% } %>
@@ -83,7 +82,7 @@
 
         <p><%= markdown.toHTML(summary) %></p>
         <% if (section_type === 'theme') { %>
-        <button type="button" class="btn btn-primary" id="lection-show">Пройти контрольную</button>
+        <button type="button" class="btn btn-primary" id="lection-show">Просмотреть</button>
         <% } else { %>
         <button type="button" class="btn btn-primary" id="lection-show">Читать лекцию</button>
         <% } %>
@@ -272,6 +271,10 @@
                             </label>
                         </div>
                     </div>
+                    <div class="form-group" id="password-group" style="display: none;">
+                        <label class="control-label" for="wt-password">Пароль</label>
+                        <input type="text" class="form-control" id="wt-password" name="password">
+                    </div>
                 </form>
                 <button type="button" class="btn btn-primary" id="authorize">Авторизоваться</button>
             </div>
@@ -301,6 +304,10 @@
 
         <script type="text/template" id="auth-logout-success">
         До свидания!
+        </script>
+
+        <script type="text/template" id="static-auth-error">
+        Неправильное имя или пароль
         </script>
 
         <script type="text/template" id="static-no-changes">

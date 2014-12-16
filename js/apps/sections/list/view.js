@@ -2,7 +2,7 @@ WebTester.module("SectionsApp.List", function(List, WebTester, Backbone, Marione
     List.Section = Marionette.ItemView.extend({
         className: function() {
             if (this.model.get('section_type') === 'theme') {
-                return "col-md-12";
+                return "col-xs-12";
             }
             return "col-xs-6";
         },

@@ -10,6 +10,10 @@ WebTester.module("Models", function(Models, WebTester, Backbone, Marionette, $, 
                 errors = {};
 
             _.each(attrs, function(value, key, obj) {
+                if (key === "password") {
+                    return;
+                }
+
                 value = value.trim();
 
                 if (value.length === 0) {

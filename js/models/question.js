@@ -7,9 +7,4 @@ WebTester.module("Models", function(Models, WebTester, Backbone, Marionette, $, 
             section_id: 0
         }
     });
-
-    var API = {
-        getQuestions: function(section_id) {
-        }
-    }
 });

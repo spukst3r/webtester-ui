@@ -27,6 +27,7 @@ WebTester.module("Models", function(Models, WebTester, Backbone, Marionette, $, 
         },
         parse: function(response, options) {
             var questions = response.questions;
+            console.log(questions);
             response.questions = [];
 
             function parseAnswers(answerList) {
